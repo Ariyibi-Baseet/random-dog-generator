@@ -38,7 +38,7 @@
         border-radius: 7px;
         margin-top: 10px;
         cursor: pointer;
-        transition: 500ms ease-in-out;
+        transition: 300ms ease-in-out;
         font-size: 18px;
       }
       button:hover {
@@ -80,15 +80,17 @@
     </div>
 
     <script>
-      //   let dogImage = document.querySelector(".dog-image");
       let imageSizeBtn = document.querySelector(".image-size");
       let imageVideoArea = document.querySelector(".image-video-area");
+      let downloadBtn = document.querySelector(".download-btn");
+      let currentMediaUrl = "";
       function getDogImage() {
         fetch("https://random.dog/woof.json")
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
+            currentMediaUrl = data.url;
             if (
               data.url.includes(".mp4") ||
               data.url.includes(".webm") ||
@@ -101,19 +103,36 @@
               imageVideoArea.innerHTML = `<img src="${data.url}" alt="" class="dog-image" />`;
             }
 
-            imageSizeBtn.innerText = data.fileSizeBytes / 1000000 + "MB";
+            imageSizeBtn.innerText =
+              (data.fileSizeBytes / 1000000).toFixed(2) + "MB";
           });
       }
 
       function showImagePlaceholder() {
+        currentMediaUrl = "dog.png";
         imageVideoArea.innerHTML = `<img src="dog.png" alt="" class="dog-image" />`;
       }
 
-      showImagePlaceholder();
+      // Download handler
+      downloadBtn.addEventListener("click", function () {
+        if (!currentMediaUrl) return;
+        fetch(currentMediaUrl)
+          .then((response) => response.blob())
+          .then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            // Get file extension
+            let ext = currentMediaUrl.split(".").pop().split(/\#|\?/)[0];
+            a.href = url;
+            a.download = "random-dog." + ext;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          });
+      });
 
-      //   function getRandomDogImage() {
-      //     fetch("https://random.dog/woof.json").then(function () {});
-      //   }
+      showImagePlaceholder();
     </script>
   </body>
 </html>
