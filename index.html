@@ -4,11 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="dog.png" />
-    <title>Dog Platform</title>
+    <title>Random Dog Generator</title>
     <style>
       * {
         margin: 0;
         font-family: sans-serif;
+      }
+      body {
+        width: 100%;
+        position: relative;
+        height: 100vh;
       }
       h1 {
         text-align: center;
@@ -62,6 +67,16 @@
         background-color: rgb(14, 171, 14);
         color: #fff;
       }
+      footer {
+        position: absolute;
+        width: 100%;
+        bottom: 10px;
+        padding-bottom: 15px;
+      }
+
+      footer > p {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -78,6 +93,15 @@
         <button class="download-btn">Download</button>
       </div>
     </div>
+
+    <footer>
+      <p>
+        Created by
+        <a href="mailto:ariyibi.baseet@gmail.com">Ariyibi Baseet</a> |
+        Facilitator and Founder
+        <a href="learnwithariyibi@gmail.com">@Learnwithariyibi</a>
+      </p>
+    </footer>
 
     <script>
       let imageSizeBtn = document.querySelector(".image-size");
@@ -110,7 +134,7 @@
 
       function showImagePlaceholder() {
         currentMediaUrl = "dog.png";
-        imageVideoArea.innerHTML = `<img src="dog.png" alt="" class="dog-image" />`;
+        imageVideoArea.innerHTML = `<img src="${currentMediaUrl}" alt="" class="dog-image" />`;
       }
 
       // Download handler
