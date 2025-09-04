@@ -123,8 +123,12 @@
             const a = document.createElement("a");
             // Get file extension
             let ext = currentMediaUrl.split(".").pop().split(/\#|\?/)[0];
+            let type =
+              ext === "mp4" || ext === "webm" || ext === "mov"
+                ? "video"
+                : "image";
             a.href = url;
-            a.download = "random-dog." + ext;
+            a.download = `random-dog-${type}.${ext}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
